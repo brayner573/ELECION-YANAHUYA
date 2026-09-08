@@ -233,10 +233,8 @@ function actualizarUI() {
   const ctx = document.getElementById("resultsChart");
   
   if (ctx && chartContainer) {
-    // Si ya hay votos, mostrar el contenedor del gráfico
-    if (total > 0) {
-      chartContainer.hidden = false;
-    }
+    // Mostrar el contenedor siempre
+    chartContainer.hidden = false;
 
     const labels = CANDIDATOS.map(c => c.nombre);
     const data = CANDIDATOS.map(c => voteState[c.id] || 0);
@@ -376,4 +374,5 @@ function mostrarAgradecimiento() {
 // ARRANQUE — renderiza candidatos primero, Firebase después
 // ------------------------------------------------------------
 renderBallot();           // siempre funciona (datos locales)
+actualizarUI();           // renderiza barras y gráfico inicial
 escucharVotosEnTiempoReal(); // conecta Firebase para votos en vivo
