@@ -47,6 +47,11 @@
     </div>
   </div>
 
+  <!-- GRÁFICO DE RESULTADOS -->
+  <div class="chart-container" id="chartContainer" hidden>
+    <canvas id="resultsChart"></canvas>
+  </div>
+
   <!-- CÉDULA -->
   <main class="ballot" id="ballot">
     <div class="ballot__loading" id="loading">Cargando candidatos…</div>
@@ -66,6 +71,8 @@
     <p>Los resultados se actualizan en tiempo real para todos los participantes conectados.</p>
   </footer>
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Firebase SDK (v9 modular CDN) -->
   <script type="module" src="app.js"></script>
 </body>

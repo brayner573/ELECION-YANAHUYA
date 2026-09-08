@@ -181,9 +181,10 @@ function renderBallot() {
 }
 
 // ------------------------------------------------------------
-// Actualiza barras y contadores con los datos de Firestore
+// Actualiza barras, contadores y gráfico con los datos de Firestore
 // ------------------------------------------------------------
 const TOTAL_ELECTORES = 2359;
+let resultsChartInstance = null;
 
 function actualizarUI() {
   const total = Object.values(voteState).reduce((a, b) => a + b, 0);
@@ -224,6 +225,66 @@ function actualizarUI() {
     
     if (participacionFill) {
       participacionFill.style.width = `${partPct}%`;
+    }
+  }
+
+  // Actualizar gráfico de resultados
+  const chartContainer = document.getElementById("chartContainer");
+  const ctx = document.getElementById("resultsChart");
+  
+  if (ctx && chartContainer) {
+    // Si ya hay votos, mostrar el contenedor del gráfico
+    if (total > 0) {
+      chartContainer.hidden = false;
+    }
+
+    const labels = CANDIDATOS.map(c => c.nombre);
+    const data = CANDIDATOS.map(c => voteState[c.id] || 0);
+    const backgroundColors = CANDIDATOS.map(c => c.color);
+
+    if (resultsChartInstance) {
+      resultsChartInstance.data.datasets[0].data = data;
+      resultsChartInstance.update();
+    } else {
+      resultsChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Votos',
+            data: data,
+            backgroundColor: backgroundColors,
+            borderWidth: 2,
+            borderColor: '#f4f7f6',
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  family: "'Outfit', sans-serif",
+                  size: 13
+                },
+                color: '#1e293b'
+              }
+            },
+            title: {
+              display: true,
+              text: 'Distribución de Votos',
+              font: {
+                family: "'Outfit', sans-serif",
+                size: 18,
+                weight: '800'
+              },
+              color: '#1e293b'
+            }
+          }
+        }
+      });
     }
   }
 }

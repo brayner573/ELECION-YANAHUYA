@@ -171,6 +171,16 @@ body {
   transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* ── Chart Container ─────────────────────────────────────── */
+.chart-container {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  background: var(--bg-color);
+  box-shadow: var(--shadow-light);
+  border-radius: var(--radius);
+}
+
 /* ── Ballot Grid ─────────────────────────────────────────── */
 .ballot {
   max-width: 800px;
