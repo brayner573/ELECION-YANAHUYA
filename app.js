@@ -37,7 +37,7 @@ const CANDIDATOS = [
     nombre: "John Durand Ticona",
     simbolo: "Ahora Nación",
     color: "#e63946",
-    photo: "https://ui-avatars.com/api/?name=John+Durand+Ticona&background=e63946&color=fff&size=160&font-size=0.33&bold=true",
+    photo: "images/JHON_DURAN.jpeg",
   },
   {
     id: "candidato2",
@@ -45,7 +45,7 @@ const CANDIDATOS = [
     nombre: "Wiliam Megiry Chuquija Tito",
     simbolo: "ASI - Juntos por el Perú",
     color: "#d4a017",
-    photo: "https://ui-avatars.com/api/?name=Wiliam+Chuquija&background=a9803f&color=fff&size=160&font-size=0.33&bold=true",
+    photo: "images/wiliam.jpeg",
   },
   {
     id: "candidato3",
@@ -53,7 +53,7 @@ const CANDIDATOS = [
     nombre: "Edgar Willes Quispe Zapata",
     simbolo: "Partido Político Perú Primero",
     color: "#2ecc71",
-    photo: "https://ui-avatars.com/api/?name=Edgar+Quispe+Zapata&background=3f6e4d&color=fff&size=160&font-size=0.33&bold=true",
+    photo: "images/edgar.jpeg",
   },
   {
     id: "candidato4",
@@ -61,7 +61,7 @@ const CANDIDATOS = [
     nombre: "Aronil Exorsi del Avila Arizapana",
     simbolo: "Salvemos al Perú",
     color: "#9b59b6",
-    photo: "https://ui-avatars.com/api/?name=Aronil+Avila&background=6c3483&color=fff&size=160&font-size=0.33&bold=true",
+    photo: "images/aronil.jpeg",
   },
   {
     id: "candidato5",
@@ -69,7 +69,7 @@ const CANDIDATOS = [
     nombre: "Clever Esais Caceres Calcina",
     simbolo: "Clever Esais Caceres Calcina",
     color: "#e67e22",
-    photo: "https://ui-avatars.com/api/?name=Clever+Caceres&background=8c1f24&color=fff&size=160&font-size=0.33&bold=true",
+    photo: "images/clever.jpeg",
   },
 ];
 
@@ -80,13 +80,13 @@ const voteState = {};
 CANDIDATOS.forEach((c) => (voteState[c.id] = 0));
 
 // Referencias al DOM
-const ballotEl        = document.getElementById("ballot");
-const loadingEl       = document.getElementById("loading");
-const totalsEl        = document.getElementById("totals");
+const ballotEl = document.getElementById("ballot");
+const loadingEl = document.getElementById("loading");
+const totalsEl = document.getElementById("totals");
 const totalVotesLabel = document.getElementById("totalVotesLabel");
-const toastEl         = document.getElementById("toast");
+const toastEl = document.getElementById("toast");
 
-const yaVoto           = () => localStorage.getItem(VOTE_KEY);
+const yaVoto = () => localStorage.getItem(VOTE_KEY);
 const marcarComoVotado = (id) => localStorage.setItem(VOTE_KEY, id);
 
 // ── Firebase init (aislado para que un error no rompa la UI) ──
@@ -113,14 +113,14 @@ function renderBallot() {
     row.className = "candidate";
     row.id = `row-${c.id}`;
 
-    let btnText     = "Votar";
-    let btnClass    = "vote-btn";
+    let btnText = "Votar";
+    let btnClass = "vote-btn";
     let btnDisabled = false;
 
     if (votedId) {
       btnDisabled = true;
       if (votedId === c.id) {
-        btnText  = "✓ Tu voto";
+        btnText = "✓ Tu voto";
         btnClass = "vote-btn is-voted";
       } else {
         btnText = "Votación cerrada";
@@ -177,29 +177,29 @@ function renderBallot() {
 
   // Ocultar loading y mostrar contador
   if (loadingEl) loadingEl.hidden = true;
-  if (totalsEl)  totalsEl.hidden  = false;
+  if (totalsEl) totalsEl.hidden = false;
 }
 
 // ------------------------------------------------------------
 // Actualiza barras y contadores con los datos de Firestore
 // ------------------------------------------------------------
 function actualizarUI() {
-  const total    = Object.values(voteState).reduce((a, b) => a + b, 0);
+  const total = Object.values(voteState).reduce((a, b) => a + b, 0);
   const maxVotos = Math.max(0, ...Object.values(voteState));
 
   CANDIDATOS.forEach((c) => {
     const votos = voteState[c.id] || 0;
-    const pct   = total > 0 ? ((votos / total) * 100).toFixed(1) : "0.0";
+    const pct = total > 0 ? ((votos / total) * 100).toFixed(1) : "0.0";
 
-    const fillEl  = document.getElementById(`fill-${c.id}`);
+    const fillEl = document.getElementById(`fill-${c.id}`);
     const countEl = document.getElementById(`count-${c.id}`);
-    const pctEl   = document.getElementById(`pct-${c.id}`);
-    const rowEl   = document.getElementById(`row-${c.id}`);
+    const pctEl = document.getElementById(`pct-${c.id}`);
+    const rowEl = document.getElementById(`row-${c.id}`);
 
-    if (fillEl)  fillEl.style.width  = `${pct}%`;
+    if (fillEl) fillEl.style.width = `${pct}%`;
     if (countEl) countEl.textContent = votos.toLocaleString();
-    if (pctEl)   pctEl.textContent   = `${pct}%`;
-    if (rowEl)   rowEl.classList.toggle("is-leading", votos > 0 && votos === maxVotos);
+    if (pctEl) pctEl.textContent = `${pct}%`;
+    if (rowEl) rowEl.classList.toggle("is-leading", votos > 0 && votos === maxVotos);
   });
 
   if (totalVotesLabel) totalVotesLabel.textContent = total.toLocaleString();
@@ -244,7 +244,7 @@ async function emitirVoto(candidatoId) {
   const btn = document.getElementById(`btn-${candidatoId}`);
   if (!btn) return;
 
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = "Enviando…";
 
   if (!db) {
@@ -276,7 +276,7 @@ async function emitirVoto(candidatoId) {
         console.error("Error creando documento:", e2);
       }
     }
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = "Votar";
     alert("No se pudo registrar tu voto. Verifica tu conexión e inténtalo de nuevo.");
   }
