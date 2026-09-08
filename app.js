@@ -183,6 +183,8 @@ function renderBallot() {
 // ------------------------------------------------------------
 // Actualiza barras y contadores con los datos de Firestore
 // ------------------------------------------------------------
+const TOTAL_ELECTORES = 2359;
+
 function actualizarUI() {
   const total = Object.values(voteState).reduce((a, b) => a + b, 0);
   const maxVotos = Math.max(0, ...Object.values(voteState));
@@ -202,7 +204,28 @@ function actualizarUI() {
     if (rowEl) rowEl.classList.toggle("is-leading", votos > 0 && votos === maxVotos);
   });
 
-  if (totalVotesLabel) totalVotesLabel.textContent = total.toLocaleString();
+  // Estadísticas globales (Participación y Ausentismo)
+  const participacionCount = document.getElementById("participacionCount");
+  const participacionPct = document.getElementById("participacionPct");
+  const ausentismoCount = document.getElementById("ausentismoCount");
+  const ausentismoPct = document.getElementById("ausentismoPct");
+  const participacionFill = document.getElementById("participacionFill");
+
+  if (participacionCount) {
+    const partPct = TOTAL_ELECTORES > 0 ? ((total / TOTAL_ELECTORES) * 100).toFixed(1) : "0.0";
+    const ausentes = Math.max(0, TOTAL_ELECTORES - total);
+    const ausPct = TOTAL_ELECTORES > 0 ? ((ausentes / TOTAL_ELECTORES) * 100).toFixed(1) : "0.0";
+
+    participacionCount.textContent = total.toLocaleString();
+    participacionPct.textContent = `${partPct}%`;
+    
+    ausentismoCount.textContent = ausentes.toLocaleString();
+    ausentismoPct.textContent = `${ausPct}%`;
+    
+    if (participacionFill) {
+      participacionFill.style.width = `${partPct}%`;
+    }
+  }
 }
 
 // ------------------------------------------------------------

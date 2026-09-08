@@ -23,9 +23,28 @@
     </div>
   </header>
 
-  <!-- CONTADOR TOTAL -->
+  <!-- ESTADÍSTICAS TOTALES -->
   <div class="totals" id="totals" hidden>
-    <p class="totals__count">Total de votos: <strong id="totalVotesLabel">0</strong></p>
+    <div class="totals__stats">
+      <div class="stat-box">
+        <p>Electores Hábiles</p>
+        <strong>2,359</strong>
+      </div>
+      <div class="stat-box">
+        <p>Participación</p>
+        <strong id="participacionCount">0</strong>
+        <span id="participacionPct">0.0%</span>
+      </div>
+      <div class="stat-box">
+        <p>Ausentismo</p>
+        <strong id="ausentismoCount">2,359</strong>
+        <span id="ausentismoPct" style="color: var(--text-light);">100.0%</span>
+      </div>
+    </div>
+    
+    <div class="totals__meter">
+      <div class="totals__meter-fill" id="participacionFill"></div>
+    </div>
   </div>
 
   <!-- CÉDULA -->
